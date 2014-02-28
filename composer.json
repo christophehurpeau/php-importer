@@ -1,0 +1,21 @@
+{
+    "name": "christophehurpeau/php-importer",
+    "description": "Interfaces and CSV Importer in PHP",
+    "version": "0.1.0",
+    "type": "library",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Christophe Hurpeau",
+            "email": "christophe@hurpeau.com",
+            "homepage": "http://christophe.hurpeau.com/"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Importer\\": ["src/"]
+        }
+    }
+}
