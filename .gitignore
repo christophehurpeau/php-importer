@@ -1,0 +1,17 @@
+/.settings
+.project
+.buildpath
+
+#*
+*$
+*.BAK
+*.bak
+*.log
+*.old
+*~
+.#*
+.DS_Store
+,*
+
+vendor
+tests/output

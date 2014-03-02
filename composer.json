@@ -13,6 +13,11 @@
     ],
     "require": {
     },
+    "require-dev" : {
+        "squizlabs/php_codesniffer" : "~1.5",
+        "league/phpunit-coverage-listener" : "~1.0",
+        "phpunit/phpunit" : "~3.7",
+    },
     "autoload": {
         "psr-4": {
             "Importer\\": ["src/"]

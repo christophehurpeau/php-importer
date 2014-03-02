@@ -1,7 +1,7 @@
 <?php
 namespace Importer\Csv;
 
-class CsvEngine implements \Importer\Engine
+class Engine implements \Importer\Engine
 {
 
     public function validateHeader(\Importer\HeaderValidator $validator, array $headers) {

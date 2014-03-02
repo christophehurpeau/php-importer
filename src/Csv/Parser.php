@@ -4,7 +4,7 @@ namespace Importer\Csv;
 /**
  * CSV file parser
  */
-class CsvParser implements \Importer\Parser
+class Parser implements \Importer\Parser
 {
 
     /**
