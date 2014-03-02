@@ -17,7 +17,7 @@ class Engine implements \Importer\Engine
     }
 
     public function process($file, \Importer\LineProcessor $processor, \Importer\HeaderValidator $validator = null) {
-        $parser = new Csv\Parser($file);
+        $parser = new Parser($file);
         $success = true;
         $missings = array();
 
