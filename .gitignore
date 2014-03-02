@@ -1,6 +1,7 @@
 /.settings
 .project
 .buildpath
+*.sublime-workspace
 
 #*
 *$
@@ -13,5 +14,6 @@
 .DS_Store
 ,*
 
+composer.lock
 vendor
 tests/output
