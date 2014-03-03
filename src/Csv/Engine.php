@@ -9,7 +9,7 @@ class Engine implements \Importer\Engine
         if (!empty($requiredHeaders)) {
             foreach($requiredHeaders as $requiredHeader) {
                 if (!in_array($requiredHeader, $headers)) {
-                    return false;
+                    throw new \Importer\WrongHeaderException('Required headers: '.implode(', ', $requiredHeaders));
                 }
             }
         }
@@ -23,8 +23,8 @@ class Engine implements \Importer\Engine
 
         $parser->rewind();
         $headers = $parser->current();
-        if ($validator !== null && !$this->validateHeader($validator, $headers)) {
-            throw new \Importer\WrongHeaderException();
+        if ($validator !== null) {
+            $this->validateHeader($validator, $headers);
         }
 
         while ($line = $parser->fetchNextLine()){
