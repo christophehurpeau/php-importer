@@ -29,6 +29,10 @@ class Engine implements \Importer\Engine
 
         while ($line = $parser->fetchNextLine()){
             if (!empty($line)) {
+                if (count($headers) !== count($line)) {
+                    throw new \Importer\WrongLineElementsCountException('There is '.count($line).' elements, headers have ' .count($headers)
+                            ."\n line = " . implode(';', $line));
+                }
                 $line = array_combine($headers, $line);
                 $successLine = $processor->processLine($line);
                 if (!$successLine) {
