@@ -16,10 +16,16 @@ class Engine implements \Importer\Engine
         return true;
     }
 
+    /**
+     * Process the file and return failed lines or true if success
+     * @param  string $file file path
+     * @param  \Importer\LineProcessor $processor
+     * @param  \Importer\HeaderValidator $validator
+     * @return array|true
+     */
     public function process($file, \Importer\LineProcessor $processor, \Importer\HeaderValidator $validator = null) {
         $parser = new Parser($file);
-        $success = true;
-        $missings = array();
+        $failedLines = array();
 
         $parser->rewind();
         $headers = $parser->current();
@@ -36,11 +42,11 @@ class Engine implements \Importer\Engine
                 $line = array_combine($headers, $line);
                 $successLine = $processor->processLine($line);
                 if (!$successLine) {
-                    $missings[] = $line;
+                    $failedLines[] = $line;
                 }
             }
         }
-        return array('success' => $success, 'missings' => $missings);
+        return empty($failedLines) true : $failedLines;
     }
 
 }
