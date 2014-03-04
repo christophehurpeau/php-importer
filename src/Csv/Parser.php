@@ -8,7 +8,7 @@ class Parser implements \Importer\Parser
 {
 
     /**
-     * @var ressource
+     * @var \ressource
      */
     private $ressource;
 
