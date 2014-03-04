@@ -36,7 +36,8 @@ class Engine implements \Importer\Engine
         while ($line = $parser->fetchNextLine()){
             if (!empty($line)) {
                 if (count($headers) !== count($line)) {
-                    throw new \Importer\WrongLineElementsCountException('There is '.count($line).' elements, headers have ' .count($headers)
+                    throw new \Importer\WrongLineElementsCountException(
+                            'There is '.count($line).' elements, headers have ' .count($headers)
                             ."\n line = " . implode(';', $line));
                 }
                 $line = array_combine($headers, $line);
@@ -48,5 +49,4 @@ class Engine implements \Importer\Engine
         }
         return empty($failedLines) ? true : $failedLines;
     }
-
 }

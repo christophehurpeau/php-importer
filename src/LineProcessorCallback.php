@@ -24,5 +24,4 @@ class LineProcessorCallback implements LineProcessor
     {
         return call_user_func($this->callback, $line);
     }
-
 }
