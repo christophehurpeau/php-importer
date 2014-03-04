@@ -33,6 +33,38 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(null, $line);
     }
 
+    public function testFetchNextLine2() {
+        $parser =
+            $this->getMock('\Importer\Csv\Parser',
+                        array('valid', 'next', 'current'),
+                        array($this->tmpfname));
+        $parser
+            ->expects($this->once())
+            ->method('valid')
+            ->will($this->returnValue(true));
+        $parser
+            ->expects($this->once())
+            ->method('next');
+        $parser
+            ->expects($this->once())
+            ->method('current')
+            ->will($this->returnValue('ok'));
+
+        $result = $parser->fetchNextLine();
+        $this->assertEquals('ok', $result);
+    }
+
+    public function testFetchNextLineEndOfFile() {
+        $parser =
+            $this->getMock('\Importer\Csv\Parser', array('valid'), array($this->tmpfname));
+        $parser
+            ->expects($this->once())
+            ->method('valid')
+            ->will($this->returnValue(false));
+        $result = $parser->fetchNextLine();
+        $this->assertEquals(null, $result);
+    }
+
     public function testNext() {
         $parser = new Parser($this->tmpfname);
         $parser->next();
