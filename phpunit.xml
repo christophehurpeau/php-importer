@@ -1,7 +1,7 @@
 <phpunit bootstrap="vendor/autoload.php"
-    convertErrorsToExceptions="false"
-    convertWarningsToExceptions="false"
-    convertNoticesToExceptions="false"
+    convertErrorsToExceptions="true"
+    convertWarningsToExceptions="true"
+    convertNoticesToExceptions="true"
 >
     <testsuites>
         <testsuite name="All tests">

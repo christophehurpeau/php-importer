@@ -31,6 +31,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(array('value3.1', 'value3.2'), $line);
         $line = $parser->fetchNextLine();
         $this->assertEquals(null, $line);
+        $this->assertEquals(tre, $line);
     }
 
     public function testFetchNextLine2() {
