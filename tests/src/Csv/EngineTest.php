@@ -68,4 +68,31 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
 
         unlink($tmpfname);
     }
+
+
+    public function testProcessWrongLineElementsCountException() {
+        $headerValidator =
+            $this->getMock('\Importer\HeaderValidator', array('getRequiredHeaders'));
+        $headerValidator
+            ->expects($this->once())
+            ->method('getRequiredHeaders')
+            ->will($this->returnValue(array(
+                'header1',
+                'header2'
+            )));
+
+        $tmpfname = tempnam("/tmp", "csv");
+        file_put_contents($tmpfname, "header1;header2\nvalue1;value2;value3\n");
+
+        $processor = $this->getMock('\Importer\LineProcessor', array('processLine'));
+        $engine = new \Importer\Csv\Engine();
+        try {
+            $result = $engine->process($tmpfname, $processor, $headerValidator);
+            $this->fail('Engine should throw WrongLineElementsCountException');
+        } catch (\Importer\WrongLineElementsCountException $e) {
+            $this->assertEquals($e->getMessage(), 'There is 3 elements, headers have 2'
+                            ."\n line = value1;value2;value3");
+        }
+        unlink($tmpfname);
+    }
 }
