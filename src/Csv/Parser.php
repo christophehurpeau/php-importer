@@ -8,9 +8,9 @@ class Parser implements \Importer\Parser
 {
 
     /**
-     * @var \ressource
+     * @var resource
      */
-    private $ressource;
+    private $resource;
 
     /**
      * @var string[]
@@ -42,7 +42,7 @@ class Parser implements \Importer\Parser
     {
         $this->separator = $separator;
         $this->delimiter = $delimiter;
-        $this->ressource = fopen($file, 'r');
+        $this->resource = fopen($file, 'r');
     }
 
     /**
@@ -52,7 +52,7 @@ class Parser implements \Importer\Parser
      */
     public function rewind()
     {
-        rewind($this->ressource);
+        rewind($this->resource);
         $this->next();
         $this->key = 0;
     }
@@ -85,7 +85,7 @@ class Parser implements \Importer\Parser
     public function next()
     {
         $this->key++;
-        $this->currentElement = fgetcsv($this->ressource, 0, $this->separator, $this->delimiter);
+        $this->currentElement = fgetcsv($this->resource, 0, $this->separator, $this->delimiter);
     }
 
     /**
@@ -95,7 +95,7 @@ class Parser implements \Importer\Parser
      */
     public function valid()
     {
-        return !feof($this->ressource);
+        return !feof($this->resource);
     }
 
 
@@ -104,7 +104,7 @@ class Parser implements \Importer\Parser
      */
     public function __destruct()
     {
-        fclose($this->ressource);
+        fclose($this->resource);
     }
 
     /**
