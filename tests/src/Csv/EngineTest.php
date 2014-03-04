@@ -29,7 +29,10 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
             )));
 
         $engine = new \Importer\Csv\Engine();
-        $this->assertEquals(false, $engine->validateHeader($headerValidator2, array('header1')));
+        $this->setExpectedException(
+          '\Importer\WrongHeaderException', 'Required headers: header1, header2'
+        );
+        $engine->validateHeader($headerValidator2, array('header1'));
     }
 
     public function testProcess() {
@@ -59,10 +62,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
         $result = $engine->process($tmpfname, $processor, $headerValidator);
 
         $this->assertEquals(array(
-            'success' => true,
-            'missings' => array(
-                array('header1'=> 'value1', 'header2'=> 'value2'),
-            )
+            array('header1'=> 'value1', 'header2'=> 'value2'),
         ), $result);
 
 

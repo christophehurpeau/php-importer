@@ -46,7 +46,7 @@ class Engine implements \Importer\Engine
                 }
             }
         }
-        return empty($failedLines) true : $failedLines;
+        return empty($failedLines) ? true : $failedLines;
     }
 
 }
