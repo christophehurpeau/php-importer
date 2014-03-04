@@ -34,7 +34,7 @@ class Engine implements \Importer\Engine
         }
 
         while ($line = $parser->fetchNextLine()){
-            if (!empty($line)) {
+            if (empty($line)) {
                 continue;
             }
             if (count($headers) !== count($line)) {
