@@ -104,7 +104,9 @@ class Parser implements \Importer\Parser
      */
     public function __destruct()
     {
-        fclose($this->resource);
+        if ($this->resource !== null) {
+            fclose($this->resource);
+        }
     }
 
     /**

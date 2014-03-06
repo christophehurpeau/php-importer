@@ -35,45 +35,59 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
         $engine->validateHeader($headerValidator2, array('header1'));
     }
 
-    public function testProcess() {
-        $headerValidator =
-            $this->getMock('\Importer\HeaderValidator', array('getRequiredHeaders'));
-        $headerValidator
-            ->expects($this->once())
-            ->method('getRequiredHeaders')
-            ->will($this->returnValue(array(
-                'header1',
-                'header2'
-            )));
 
-        $tmpfname = tempnam("/tmp", "csv");
-        file_put_contents($tmpfname, "header1;header2\nvalue1;value2\n");
+    public function testProcessLineWrongLineElementsCountException() {
+        $lineProcessor = $this->getMock('\Importer\LineProcessor', array('processLine'));
 
-        $processor = $this->getMock('\Importer\LineProcessor', array('processLine'));
-        /*$processor
-            ->expects($this->once())
-            ->method('getRequiredHeaders')
-            ->will($this->returnValue(array(
-                'header1',
-                'header2'
-            )));*/
+        $this->setExpectedException(
+          '\Importer\WrongLineElementsCountException', 'There is 3 elements, headers have 2'
+                            ."\n line = value1;value2;value3"
+        );
 
         $engine = new \Importer\Csv\Engine();
-        $result = $engine->process($tmpfname, $processor, $headerValidator);
-
-        $this->assertEquals(array(
-            array('header1'=> 'value1', 'header2'=> 'value2'),
-        ), $result);
-
-
-        unlink($tmpfname);
+        $engine->processLine(array('value1', 'value2', 'value3'), array('header1','header2'), $lineProcessor);
     }
 
 
-    public function testProcessWrongLineElementsCountException() {
-        $headerValidator =
+    public function testProcessLineWhenLineIsEmpty() {
+        $lineProcessor = $this->getMock('\Importer\LineProcessor', array('processLine'));
+
+        $engine = new \Importer\Csv\Engine();
+        $result = $engine->processLine(array(), array('header1','header2'), $lineProcessor);
+        $this->assertEquals(null, $result);
+    }
+
+    public function testProcessLineWhenProcessIsOkay() {
+        $lineProcessorMock = $this->getMock('\Importer\LineProcessor', array('processLine'));
+
+        $lineProcessorMock
+            ->expects($this->once())
+            ->method('processLine')
+            ->will($this->returnValue(true));
+
+        $engine = new \Importer\Csv\Engine();
+        $result = $engine->processLine(array('value1', 'value2'), array('header1','header2'), $lineProcessorMock);
+        $this->assertEquals(null, $result);
+    }
+
+    public function testProcessLineWhenProcessFailed() {
+        $lineProcessorMock = $this->getMock('\Importer\LineProcessor', array('processLine'));
+
+        $lineProcessorMock
+            ->expects($this->once())
+            ->method('processLine')
+            ->will($this->returnValue(false));
+
+        $engine = new \Importer\Csv\Engine();
+        $result = $engine->processLine(array('value1', 'value2'), array('header1','header2'), $lineProcessorMock);
+        $this->assertEquals(array('header1'=> 'value1', 'header2'=> 'value2'), $result);
+    }
+
+
+    public function testProcessFailed() {
+        $headerValidatorMock =
             $this->getMock('\Importer\HeaderValidator', array('getRequiredHeaders'));
-        $headerValidator
+        $headerValidatorMock
             ->expects($this->once())
             ->method('getRequiredHeaders')
             ->will($this->returnValue(array(
@@ -81,18 +95,78 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
                 'header2'
             )));
 
-        $tmpfname = tempnam("/tmp", "csv");
-        file_put_contents($tmpfname, "header1;header2\nvalue1;value2;value3\n");
+        $parserMock = $this->getMockBuilder('\Importer\Csv\Parser')
+            ->setMethods(array('rewind', 'current', 'fetchNextLine'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $parserMock
+            ->expects($this->once())
+            ->method('current')
+            ->will($this->returnValue(
+                array('header1', 'header2')
+            ));
 
-        $processor = $this->getMock('\Importer\LineProcessor', array('processLine'));
-        $engine = new \Importer\Csv\Engine();
-        try {
-            $result = $engine->process($tmpfname, $processor, $headerValidator);
-            $this->fail('Engine should throw WrongLineElementsCountException');
-        } catch (\Importer\WrongLineElementsCountException $e) {
-            $this->assertEquals($e->getMessage(), 'There is 3 elements, headers have 2'
-                            ."\n line = value1;value2;value3");
-        }
-        unlink($tmpfname);
+        $parserMock
+            ->expects($this->any())
+            ->method('fetchNextLine')
+            ->will($this->onConsecutiveCalls(
+                array('value1', 'value2'),
+                null
+            ));
+        $lineProcessor = $this->getMock('\Importer\LineProcessor', array('processLine'));
+
+        $lineProcessorReturnValue = array('header1'=> 'value1', 'header2'=> 'value2');
+        $engineMock = $this->getMock('\Importer\Csv\Engine', array('processLine'));
+        $engineMock
+            ->expects($this->once())
+            ->method('processLine')
+            ->will($this->returnValue($lineProcessorReturnValue));
+
+        $result = $engineMock->process($parserMock, $lineProcessor, $headerValidatorMock);
+
+        $this->assertEquals(array($lineProcessorReturnValue), $result);
+    }
+
+    public function testProcessSuccess() {
+        $headerValidatorMock =
+            $this->getMock('\Importer\HeaderValidator', array('getRequiredHeaders'));
+        $headerValidatorMock
+            ->expects($this->once())
+            ->method('getRequiredHeaders')
+            ->will($this->returnValue(array(
+                'header1',
+                'header2'
+            )));
+
+        $parserMock = $this->getMockBuilder('\Importer\Csv\Parser')
+            ->setMethods(array('rewind', 'current', 'fetchNextLine'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $parserMock
+            ->expects($this->once())
+            ->method('current')
+            ->will($this->returnValue(
+                array('header1', 'header2')
+            ));
+
+        $parserMock
+            ->expects($this->any())
+            ->method('fetchNextLine')
+            ->will($this->onConsecutiveCalls(
+                array('value1', 'value2'),
+                null
+            ));
+        $lineProcessor = $this->getMock('\Importer\LineProcessor', array('processLine'));
+
+
+        $engineMock = $this->getMock('\Importer\Csv\Engine', array('processLine'));
+        $engineMock
+            ->expects($this->once())
+            ->method('processLine')
+            ->will($this->returnValue(false));
+
+        $result = $engineMock->process($parserMock, $lineProcessor, $headerValidatorMock);
+
+        $this->assertEquals(true, $result);
     }
 }
