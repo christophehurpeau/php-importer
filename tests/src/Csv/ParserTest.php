@@ -20,7 +20,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testFetchNextLine() {
-        $parser = new Parser($this->tmpfname);
+        $parser = new Parser($this->tmpfname, ';');
         $line = $parser->fetchNextLine();
         $this->assertEquals(array('header1', 'header2'), $line);
         $line = $parser->fetchNextLine();
@@ -66,20 +66,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNext() {
-        $parser = new Parser($this->tmpfname);
+        $parser = new Parser($this->tmpfname, ';');
         $parser->next();
         $this->assertEquals(array('header1', 'header2'), $parser->current());
     }
 
     public function testCurrent() {
-        $parser = new Parser($this->tmpfname);
+        $parser = new Parser($this->tmpfname, ';');
         $this->assertEquals(null, $parser->current());
         $parser->next();
         $this->assertEquals(array('header1', 'header2'), $parser->current());
     }
 
     public function testRewind() {
-        $parser = new Parser($this->tmpfname);
+        $parser = new Parser($this->tmpfname, ';');
         $parser->next();
         $parser->next();
         $parser->rewind();
@@ -88,7 +88,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 
 
     public function testKey() {
-        $parser = new Parser($this->tmpfname);
+        $parser = new Parser($this->tmpfname, ';');
         $parser->next();
         $this->assertEquals(0, $parser->key());
         $parser->next();
@@ -96,7 +96,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testValid() {
-        $parser = new Parser($this->tmpfname);
+        $parser = new Parser($this->tmpfname, ';');
         $this->assertEquals(true, $parser->valid());
         $parser->next();
         $this->assertEquals(true, $parser->valid());

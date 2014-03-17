@@ -30,7 +30,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
 
         $engine = new \Importer\Csv\Engine();
         $this->setExpectedException(
-          '\Importer\WrongHeaderException', 'Required headers: header1, header2'
+          '\Importer\WrongHeaderException', 'Missing header: header2 ; required headers: header1, header2'
         );
         $engine->validateHeader($headerValidator2, array('header1'));
     }

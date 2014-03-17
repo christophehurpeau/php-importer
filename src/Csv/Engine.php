@@ -16,7 +16,8 @@ class Engine implements \Importer\Engine
         if (!empty($requiredHeaders)) {
             foreach($requiredHeaders as $requiredHeader) {
                 if (!in_array($requiredHeader, $headers)) {
-                    throw new \Importer\WrongHeaderException('Required headers: '.implode(', ', $requiredHeaders));
+                    throw new \Importer\WrongHeaderException('Missing header: '.$requiredHeader
+                                    .' ; required headers: '.implode(', ', $requiredHeaders));
                 }
             }
         }

@@ -38,11 +38,25 @@ class Parser implements \Importer\Parser
      * @param string $separator csv separator
      * @param string $delimiter csv delimiter
      */
-    public function __construct($file, $separator = ';', $delimiter = '"')
+    public function __construct($file, $separator = null, $delimiter = '"')
     {
         $this->separator = $separator;
         $this->delimiter = $delimiter;
         $this->resource = fopen($file, 'r');
+
+        if ($separator === null) {
+            $this->separator = ';';
+            $this->rewind();
+            $count1 = $this->currentElement;
+
+            $this->separator = ',';
+            $this->rewind();
+            $count2 = $this->currentElement;
+
+            $this->separator = $count1 > $count2 ? ';' : ',';
+            rewind($this->resource);
+            $this->key = -1;
+        }
     }
 
     /**
