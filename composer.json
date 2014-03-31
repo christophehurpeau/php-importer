@@ -1,7 +1,7 @@
 {
     "name": "christophehurpeau/php-importer",
     "description": "Interfaces and CSV Importer in PHP",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "type": "library",
     "licence": "MIT",
     "authors": [

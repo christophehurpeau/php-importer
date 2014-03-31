@@ -71,9 +71,10 @@ class Engine implements \Importer\Engine
         }
 
         $line = array_combine($headers, $line);
-        if ($processor->processLine($line)) {
+        $result = $processor->processLine($line);
+        if ($result === true) {
             return false;
         }
-        return $line;
+        return $result ? $result : $line;
     }
 }
