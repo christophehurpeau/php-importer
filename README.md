@@ -11,7 +11,7 @@ Import and process files
 ## Example:
 
 
-```
+```php
 namespace CountriesExample;
 
 class CountriesCsvProcessor implements \Importer\HeaderValidator, \Importer\LineProcessor
@@ -55,7 +55,7 @@ class CountriesCsvProcessor implements \Importer\HeaderValidator, \Importer\Line
 ### How to use
 
 
-```
+```php
 ini_set('auto_detect_line_endings', true);
 $countriesCsvProcessor = new CountriesCsvProcessor();
 $result = $dataCountriesCsvProcessor->processFile(__DIR__ . '/../data/countries.csv');
