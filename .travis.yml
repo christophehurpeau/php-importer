@@ -6,10 +6,21 @@ php:
   - 5.5
 #  - 5.6
 
+# https://coderwall.com/p/5mtq6q
+addons:
+  code_climate:
+    repo_token: 0797c8ca2f0d2e65ed09f34d350b14dcbac10603c42b4d0aef08e14d4a5f8284
+
+
 before_script:
-  - composer install --prefer-source
+  - composer install --dev
   - phpenv rehash
 
 script:
   - phpunit --coverage-text
   - ./vendor/bin/phpcs --standard=./phpcs.xml -n --report=gitblame src/
+
+after_script:
+  - phpunit --coverage-clover build/logs/clover.xml
+  - php vendor/bin/test-reporter --stdout > codeclimate.json
+  - 'curl -X POST -d @codeclimate.json -H "Content-Type: application/json" -H "User-Agent: Code Climate (PHP Test Reporter v1.0.1-dev)"  https://codeclimate.com/test_reports'

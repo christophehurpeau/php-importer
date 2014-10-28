@@ -3,8 +3,10 @@ namespace Importer\Tests\Csv;
 
 use Importer\Csv\Importer;
 
-class ImporterTest extends \PHPUnit_Framework_TestCase {
-    public function testCreateParser() {
+class ImporterTest extends \PHPUnit_Framework_TestCase
+{
+    public function testCreateParser()
+    {
         $tmpfname = tempnam("/tmp", "csv");
         $importer = new \Importer\Csv\Importer($tmpfname);
         $this->assertEquals($tmpfname, $importer->getFile());
@@ -14,7 +16,8 @@ class ImporterTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    public function testProcess() {
+    public function testProcess()
+    {
         $engineMock = $this->getMock('\Importer\Engine', array('process'));
         $engineMock
             ->expects($this->once())
@@ -40,5 +43,4 @@ class ImporterTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('ok', $result);
     }
-
 }

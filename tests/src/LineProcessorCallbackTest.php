@@ -3,9 +3,11 @@ namespace Importer\Tests\Csv;
 
 use Importer\LineProcessorCallback;
 
-class LineProcessorCallbackTest extends \PHPUnit_Framework_TestCase {
+class LineProcessorCallbackTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testProcessLine() {
+    public function testProcessLine()
+    {
         $mock = $this->getMock('stdClass', array('myCallback'));
         $mock->expects($this->once())
             ->method('myCallback')

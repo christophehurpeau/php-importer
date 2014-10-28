@@ -3,8 +3,10 @@ namespace Importer\Tests\Csv;
 
 use Importer\Csv\Engine;
 
-class EngineTest extends \PHPUnit_Framework_TestCase {
-    public function testValidateHeader() {
+class EngineTest extends \PHPUnit_Framework_TestCase
+{
+    public function testValidateHeader()
+    {
         $headerValidator =
             $this->getMock('\Importer\HeaderValidator', array('getRequiredHeaders'));
         $headerValidator
@@ -30,18 +32,20 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
 
         $engine = new \Importer\Csv\Engine();
         $this->setExpectedException(
-          '\Importer\WrongHeaderException', 'Missing header: header2 ; required headers: header1, header2'
+            '\Importer\WrongHeaderException',
+            'Missing header: header2 ; required headers: header1, header2'
         );
         $engine->validateHeader($headerValidator2, array('header1'));
     }
 
 
-    public function testProcessLineWrongLineElementsCountException() {
+    public function testProcessLineWrongLineElementsCountException()
+    {
         $lineProcessor = $this->getMock('\Importer\LineProcessor', array('processLine'));
 
         $this->setExpectedException(
-          '\Importer\WrongLineElementsCountException', 'There is 3 elements, headers have 2'
-                            ."\n line = value1;value2;value3"
+            '\Importer\WrongLineElementsCountException',
+            "There is 3 elements, headers have 2\n line = value1;value2;value3"
         );
 
         $engine = new \Importer\Csv\Engine();
@@ -49,7 +53,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    public function testProcessLineWhenLineIsEmpty() {
+    public function testProcessLineWhenLineIsEmpty()
+    {
         $lineProcessor = $this->getMock('\Importer\LineProcessor', array('processLine'));
 
         $engine = new \Importer\Csv\Engine();
@@ -57,7 +62,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(null, $result);
     }
 
-    public function testProcessLineWhenProcessIsOkay() {
+    public function testProcessLineWhenProcessIsOkay()
+    {
         $lineProcessorMock = $this->getMock('\Importer\LineProcessor', array('processLine'));
 
         $lineProcessorMock
@@ -70,7 +76,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(null, $result);
     }
 
-    public function testProcessLineWhenProcessFailed() {
+    public function testProcessLineWhenProcessFailed()
+    {
         $lineProcessorMock = $this->getMock('\Importer\LineProcessor', array('processLine'));
 
         $lineProcessorMock
@@ -84,7 +91,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    public function testProcessFailed() {
+    public function testProcessFailed()
+    {
         $headerValidatorMock =
             $this->getMock('\Importer\HeaderValidator', array('getRequiredHeaders'));
         $headerValidatorMock
@@ -127,7 +135,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(array($lineProcessorReturnValue), $result);
     }
 
-    public function testProcessSuccess() {
+    public function testProcessSuccess()
+    {
         $headerValidatorMock =
             $this->getMock('\Importer\HeaderValidator', array('getRequiredHeaders'));
         $headerValidatorMock

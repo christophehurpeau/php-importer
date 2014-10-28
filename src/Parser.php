@@ -3,5 +3,5 @@ namespace Importer;
 
 interface Parser extends \Iterator
 {
-    function fetchNextLine();
+    public function fetchNextLine();
 }

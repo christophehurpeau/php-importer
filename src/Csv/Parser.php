@@ -16,7 +16,7 @@ class Parser implements \Importer\Parser
      * @var string[]
      */
     private $currentElement;
-    
+
     /**
      * @var string
      */
@@ -61,7 +61,7 @@ class Parser implements \Importer\Parser
 
     /**
      * Return at the top of the CSV file
-     * 
+     *
      * @return void
      */
     public function rewind()
@@ -73,7 +73,7 @@ class Parser implements \Importer\Parser
 
     /**
      * Return the current element
-     * 
+     *
      * @return string[]
      */
     public function current()
@@ -83,7 +83,7 @@ class Parser implements \Importer\Parser
 
     /**
      * Return the current key
-     * 
+     *
      * @return int
      */
     public function key()
@@ -104,7 +104,7 @@ class Parser implements \Importer\Parser
 
     /**
      * Check if we are at the end of the file
-     * 
+     *
      * @return bool
      */
     public function valid()
@@ -127,7 +127,8 @@ class Parser implements \Importer\Parser
      * Fetch and return the next line, or null
      * @return string[]
      */
-    public function fetchNextLine() {
+    public function fetchNextLine()
+    {
         if (!$this->valid()) {
             return null;
         }
