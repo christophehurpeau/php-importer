@@ -1,7 +1,9 @@
 /.settings
+/.idea
 .project
 .buildpath
 *.sublime-workspace
+
 
 #*
 *$

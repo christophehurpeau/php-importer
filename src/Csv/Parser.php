@@ -6,7 +6,6 @@ namespace Importer\Csv;
  */
 class Parser implements \Importer\Parser
 {
-
     /**
      * @var resource
      */
@@ -34,6 +33,7 @@ class Parser implements \Importer\Parser
 
     /**
      * Create a new CSV Parser
+     *
      * @param string $file path of the csv file
      * @param string $separator csv separator
      * @param string $delimiter csv delimiter
@@ -112,7 +112,6 @@ class Parser implements \Importer\Parser
         return !feof($this->resource);
     }
 
-
     /**
      * Close the file handle
      */
@@ -125,6 +124,7 @@ class Parser implements \Importer\Parser
 
     /**
      * Fetch and return the next line, or null
+     *
      * @return string[]
      */
     public function fetchNextLine()

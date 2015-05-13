@@ -1,4 +1,4 @@
-​#!/bin/sh
+#!/bin/sh
 
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
@@ -45,7 +45,7 @@ exec git diff-index --check --cached $against --
 # php tests
 
 echo "Unit tests"
-phpunit
+vendor/bin/phpunit
 if [ $? -ne 0 ]; then
     echo
     echo 'Unit tests failed'
@@ -54,10 +54,10 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Coding style check"
-phpcs --standard=./phpcs.xml src tests/src
+vendor/bin/phpcs --standard=PSR2 src tests/src
 if [ $? -ne 0 ]; then
-    echo ''
+    echo
     echo 'Coding style check failed'
-    echo ''
+    echo
     exit 1
 fi

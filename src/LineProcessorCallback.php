@@ -6,10 +6,13 @@ namespace Importer;
  */
 class LineProcessorCallback implements LineProcessor
 {
+    /**
+     * @var callable
+     */
     private $callback;
 
     /**
-     * @param callback $callback
+     * @param callable $callback
      */
     public function __construct($callback)
     {

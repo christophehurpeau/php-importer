@@ -1,7 +1,7 @@
 {
     "name": "christophehurpeau/php-importer",
     "description": "Interfaces and CSV Importer in PHP",
-    "version": "0.3.1",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -12,10 +12,9 @@
         }
     ],
     "require-dev" : {
-        "codeclimate/php-test-reporter": "dev-master",
-        "league/phpunit-coverage-listener" : "~1.0",
-        "phpunit/phpunit" : "~3.7",
-        "squizlabs/php_codesniffer" : "~1.5"
+        "codeclimate/php-test-reporter": "^0.1.2",
+        "squizlabs/php_codesniffer": "^2.3",
+        "phpunit/phpunit": "^4.0"
     },
     "autoload": {
         "psr-4": {

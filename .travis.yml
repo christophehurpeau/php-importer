@@ -18,7 +18,7 @@ before_script:
 
 script:
   - phpunit --coverage-text
-  - ./vendor/bin/phpcs --standard=./phpcs.xml -n --report=gitblame src/
+  - ./vendor/bin/phpcs --standard=PSR2 -n --report=gitblame src/
 
 after_script:
   - phpunit --coverage-clover build/logs/clover.xml

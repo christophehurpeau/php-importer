@@ -99,7 +99,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('header1', 'header2'), $parser->current());
     }
 
-
     public function testKey()
     {
         $parser = new Parser($this->tmpfname, ';');
